@@ -67,7 +67,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.cjs.hadoopLearn.mapReduceLearn.serialLearn.PhoneDriver</mainClass>
+                            <mainClass>com.cjs.hadoopLearn.mapReduceLearn.selfwordCount.WordCountDriver</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

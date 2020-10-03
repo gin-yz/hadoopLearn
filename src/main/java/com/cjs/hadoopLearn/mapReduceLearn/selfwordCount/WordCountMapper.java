@@ -15,12 +15,14 @@ public class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritabl
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 
-        System.out.println(key);
+        System.out.println(key.get());
 
         String[] str = value.toString().split(" ");
         for (String s : str) {
-            text.set(s);
-            context.write(text, intWritable);
+            if (!s.equals("")) {
+                text.set(s);
+                context.write(text, intWritable);
+            }
         }
     }
 }

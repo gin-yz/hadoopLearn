@@ -77,6 +77,7 @@ public class HDFS_CURD {
         System.out.println(rename);
         System.out.println(delete);
 
+
     }
 
     /*
