@@ -1,7 +1,5 @@
 package com.cjs.hadoopLearn.mapReduceLearn.serialLearn;
 
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 
 import java.io.DataInput;

@@ -1,6 +1,7 @@
 package com.cjs.hadoopLearn.mapReduceLearn.nLineInputFormatLearn;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
@@ -19,9 +20,13 @@ public class NLineMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
 		
 		// 1 获取一行
 		String line = value.toString();
+
+		System.out.println(line);
 		
 		// 2 切割
 		String[] words = line.split(" ");
+
+		System.out.println(Arrays.toString(words));
 		
 		// 3 循环写出
 		for (String word : words) {

@@ -19,6 +19,7 @@ public class KVTextDriver {
 		args = new String[]{"e:/input/inputkv", "e:/output1"};
 		Configuration conf = new Configuration();
 
+		//设置ｋ,ｖ分割符
 		conf.set(KeyValueLineRecordReader.KEY_VALUE_SEPERATOR, " ");
 		// 1 获取job对象
 		Job job = Job.getInstance(conf );
