@@ -32,7 +32,7 @@ public class WordCountDriver {
 
         boolean b = job.waitForCompletion(true);
         //设置reduceTask的数量
-        job.setNumReduceTasks(4);
+//        job.setNumReduceTasks(4);
 
         System.exit(b ? 0 : 1);
 

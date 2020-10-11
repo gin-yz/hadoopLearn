@@ -3,6 +3,7 @@ package com.cjs.hadoopLearn.mapReduceLearn.inputOutputLearn.selfInputformatLearn
 import java.io.IOException;
 
 import com.cjs.hadoopLearn.mapReduceLearn.inputOutputLearn.selfInputformatLearn.selfOutPutFormat.TestOutputFormat;
+import com.cjs.hadoopLearn.mapReduceLearn.shuffleLearn.combineLearn.WordCountDriver;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.BytesWritable;
@@ -16,7 +17,7 @@ public class SequenceFileDriver {
 	public static void main(String[] args) throws Exception, IOException {
 
 		// 输入输出路径需要根据自己电脑上实际的输入输出路径设置
-		args = new String[] { "/home/cjs/tmp_dir/hdfs/test", "/home/cjs/tmp_dir/hdfs/output10" };
+		args = new String[]{WordCountDriver.class.getResource("hello.txt").toString(),WordCountDriver.class.getResource(".").toString()+"output"};
 
 		// 1 获取job对象
 		Configuration conf = new Configuration();
