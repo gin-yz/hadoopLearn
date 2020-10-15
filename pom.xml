@@ -80,7 +80,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.cjs.hadoopLearn.mapReduceLearn.wordCountDemo.selfwordCount.WordCountDriver</mainClass>
+                            <mainClass>com.cjs.hadoopLearn.mapReduceLearn.compressLearn.FileDecompressor</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

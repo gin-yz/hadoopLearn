@@ -24,20 +24,20 @@ public class WordcountDriver {
 		Configuration conf = new Configuration();
 
 
+
+
 		//使用hadoop checknative检查压缩支持情况
 
 		// 开启map端输出压缩
 		conf.setBoolean("mapreduce.map.output.compress", true);
 		// 设置map端输出压缩方式
 		conf.setClass("mapreduce.map.output.compress.codec", BZip2Codec.class, CompressionCodec.class);
-
-
-
-
+		//或者
+//		conf.setBoolean(Job.MAP_OUTPUT_COMPRESS,true);
+//		conf.setClass(Job.MAP_OUTPUT_COMPRESS_CODEC,GzipCodec.class,CompressionCodec.class);
 
 		// 1 获取Job对象
 		Job job = Job.getInstance(conf);
-
 		// 2 设置jar存储位置
 		job.setJarByClass(WordcountDriver.class);
 
