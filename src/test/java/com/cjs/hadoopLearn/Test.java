@@ -12,14 +12,15 @@ public class Test {
     public static void main(String[] args) throws IOException {
 //        byte[] data = "hello, world!".getBytes(StandardCharsets.UTF_8);
 
-        Writable intWritable = new LongWritable(163);
+        Writable intWritable = new LongWritable(65536);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
 
-        intWritable.write(dataOutputStream);
+//        intWritable.write(dataOutputStream);
 
+        dataOutputStream.write(new byte[]{0,1,0,0});
         System.out.println(Arrays.toString(outputStream.toByteArray()));
 
     }
