@@ -18,8 +18,7 @@ public class MyUDTF2 extends GenericUDTF {
     private final transient Object[] forwardListObj = new Object[1];
     private transient ObjectInspector inputOI = null;
     @Override
-    public StructObjectInspector initialize(StructObjectInspector
-                                                        argOIs) throws UDFArgumentException {
+    public StructObjectInspector initialize(StructObjectInspector argOIs) throws UDFArgumentException {
         List<? extends StructField> fieldRefs = argOIs.getAllStructFieldRefs();
         this.inputOI = fieldRefs.get(0).getFieldObjectInspector();
         //1.定义输出数据的列名和类型

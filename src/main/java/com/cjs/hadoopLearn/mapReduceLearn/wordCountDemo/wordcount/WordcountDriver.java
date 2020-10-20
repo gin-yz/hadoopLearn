@@ -64,7 +64,15 @@ public class WordcountDriver {
 		// 设置压缩的方式
 //		FileOutputFormat.setOutputCompressorClass(job, BZip2Codec.class);
 		FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class);
-		
+
+//使用SequenceFile时输出压缩设置
+		//设置压缩
+//		FileOutputFormat.setCompressOutput(job, true);
+//设置用哪种算法进行压缩
+//		FileOutputFormat.setOutputCompressorClass(job, Lz4Codec.class);
+//必须通过SequenceFileOutputFormat.setOutputCompressionType来指定SequenceFile文件的压缩类型
+//		SequenceFileOutputFormat.setOutputCompressionType(job, SequenceFile.CompressionType.BLOCK);
+
 
 		// 6 设置输入路径和输出路径
 		FileInputFormat.setInputPaths(job, new Path(args[0]));

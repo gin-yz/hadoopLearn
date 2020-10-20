@@ -5,7 +5,7 @@
 
 package com.cjs.hadoopLearn.mapReduceLearn.serialLearn.exampleSerial;
 
-import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
 
 import java.io.*;
@@ -13,17 +13,26 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
-public class WritableSerial {
+public class SelfWritableSerialize {
     public static void main(String[] args) throws IOException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        IntWritable intWritable = new IntWritable(10101);
+//        IntWritable intWritable = new IntWritable(10101);
 
-        byte[] serializeBytes = serialize(intWritable);
+//        byte[] serializeBytes = serialize(intWritable);
+//
+//        System.out.println(Arrays.toString(serializeBytes));
+//
+//        IntWritable deserializeIntWritable = deserialize(IntWritable.class, serializeBytes);
+//
+//        System.out.println(deserializeIntWritable.get());
+
+        Text text = new Text("cjsdsg");
+        byte[] serializeBytes = serialize(text);
 
         System.out.println(Arrays.toString(serializeBytes));
 
-        IntWritable deserializeIntWeitable = deserialize(IntWritable.class, serializeBytes);
+        Text deserializeText = deserialize(Text.class, serializeBytes);
 
-        System.out.println(deserializeIntWeitable.get());
+        System.out.println(deserializeText.toString());
     }
 
 
