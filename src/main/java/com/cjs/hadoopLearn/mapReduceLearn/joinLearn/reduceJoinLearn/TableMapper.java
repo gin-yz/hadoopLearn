@@ -1,3 +1,6 @@
+/*
+* 将两个表都读入，并判断是哪个表的，都封装进一个bean中
+* */
 package com.cjs.hadoopLearn.mapReduceLearn.joinLearn.reduceJoinLearn;
 
 import java.io.IOException;

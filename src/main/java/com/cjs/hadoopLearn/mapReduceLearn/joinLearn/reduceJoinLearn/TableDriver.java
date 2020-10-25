@@ -1,3 +1,7 @@
+/*
+* 值相同的放到一起，判断一下类型
+* */
+
 package com.cjs.hadoopLearn.mapReduceLearn.joinLearn.reduceJoinLearn;
 
 import java.io.IOException;
@@ -13,7 +17,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class TableDriver {
 
 	public static void main(String[] args) throws Exception, IOException, InterruptedException {
-		// 0 根据自己电脑路径重新配置
+		// 0 将两个表都读入
 		args = new String[] { "e:/input/inputtable", "e:/output1" };
 
 		// 1 获取配置信息，或者job对象实例
