@@ -13,8 +13,11 @@ public class PhoneReducer extends Reducer<PhoneData, Text, Text, Text> {
         long updata = 0;
         long downdata = 0;
         value.set(key.toString());
+        System.out.println(key.toString());
         for (Text data : values) {
             context.write(data, value);
+            System.out.println(key.toString());
+            System.out.println(value);
         }
     }
 }

@@ -13,6 +13,7 @@ public class TableJoinUseCacheMap extends Mapper<LongWritable, Text, Text, NullW
     HashMap<String,String> pdMap = new HashMap<>();
     Text v = new Text();
 
+    //setup是一个MapTask运行一次
     @Override
     protected void setup(Context context) throws IOException, InterruptedException {
         //只存了一个ｃａｃｈｅ

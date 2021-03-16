@@ -44,8 +44,9 @@ public class WordcountDriver {
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 
-		// 如果不设置InputFormat，它默认用的是TextInputFormat.class
-		// job.setInputFormatClass(CombineTextInputFormat.class);
+		// 如果不设置InputFormat，它默认用的是TextInputFormat.class,这个会按照一个文件一个文件的切片，如果一个文件小于１２８ＭＢ的话，也是属于一个切片
+		//默认按照一行一行的读
+//		 job.setInputFormatClass(CombineTextInputFormat.class);
 		// 虚拟存储切片最大值设置4m
 		// CombineTextInputFormat.setMaxInputSplitSize(job, 4194304);
 

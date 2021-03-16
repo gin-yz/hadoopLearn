@@ -85,6 +85,7 @@
 
 
     <build>
+        <finalName>WordCount</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

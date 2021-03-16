@@ -21,7 +21,7 @@ public class PhoneDriver {
 
         Job job = Job.getInstance(configuration);
 
-        job.setJarByClass(PhoneData.class);
+        job.setJarByClass(PhoneDriver.class);
 
         job.setMapperClass(PhoneMapper.class);
         job.setReducerClass(PhoneReducer.class);

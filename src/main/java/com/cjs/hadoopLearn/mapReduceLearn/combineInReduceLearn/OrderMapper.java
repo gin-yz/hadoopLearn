@@ -13,8 +13,7 @@ public class OrderMapper extends Mapper<LongWritable, Text, OrderBean, NullWrita
 	OrderBean k = new OrderBean();
 	
 	@Override
-	protected void map(LongWritable key, Text value,
-			Context context)
+	protected void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
 		//0000001	Pdt_01	222.8
 		

@@ -15,7 +15,7 @@ public class NLineDriver {
 
 	public static void main(String[] args) throws IllegalArgumentException, IOException, ClassNotFoundException, InterruptedException {
 		// 输入输出路径需要根据自己电脑上实际的输入输出路径设置
-		args = new String[] { "/home/cjs/tmp_dir/hdfs/testN.txt", "/home/cjs/tmp_dir/hdfs/outputN" };
+		args = new String[] { NLineDriver.class.getResource("./hello.txt").toString(), NLineDriver.class.getResource("./").toString()+"/result" };
 
 		// 1 获取job对象
 		Configuration configuration = new Configuration();

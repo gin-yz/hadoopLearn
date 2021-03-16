@@ -11,13 +11,14 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 
 public class SequenceFileDriver {
 
 	public static void main(String[] args) throws Exception, IOException {
 
 		// 输入输出路径需要根据自己电脑上实际的输入输出路径设置
-		args = new String[]{WordCountDriver.class.getResource("hello.txt").toString(),WordCountDriver.class.getResource(".").toString()+"output"};
+		args = new String[]{SequenceFileDriver.class.getResource("./").toString()+"hello",SequenceFileDriver.class.getResource(".").toString()+"output"};
 
 		// 1 获取job对象
 		Configuration conf = new Configuration();
@@ -31,8 +32,8 @@ public class SequenceFileDriver {
 		// 7设置输入的inputFormat
 		job.setInputFormatClass(WholeFileInputformat.class);
 		// 8设置输出的outputFormat
-//		job.setOutputFormatClass(SequenceFileOutputFormat.class);
-		job.setOutputFormatClass(TestOutputFormat.class);
+		job.setOutputFormatClass(SequenceFileOutputFormat.class);
+//		job.setOutputFormatClass(TestOutputFormat.class);
 
 		// 3 设置map输出端的kv类型
 		job.setMapOutputKeyClass(Text.class);

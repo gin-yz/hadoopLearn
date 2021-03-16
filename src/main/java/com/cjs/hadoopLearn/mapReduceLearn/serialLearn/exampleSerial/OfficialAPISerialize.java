@@ -23,6 +23,7 @@ public class OfficialAPISerialize {
         serializer.serialize(text);
         serializer.close();
 
+        //将out中数据传给in
         in.reset(out.getData(),out.getLength());
         System.out.println(Arrays.toString(in.getData()));
 
