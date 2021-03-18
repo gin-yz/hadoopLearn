@@ -20,19 +20,19 @@ public class TestCompress {
 	public static void main(String[] args) throws Exception {
 		
 		// 压缩
-//		compress("e:/hello.txt","org.apache.hadoop.io.compress.BZip2Codec");
+//		compress(TestCompress.class.getResource("./helloCJS.txt").getFile(),"org.apache.hadoop.io.compress.BZip2Codec");
 //		compress("e:/hello.txt","org.apache.hadoop.io.compress.GzipCodec");
 //		compress("e:/hello.txt","org.apache.hadoop.io.compress.DefaultCodec");
 
 		//解压
-		decompress("e:/hello.txt.deflate");
+		decompress(TestCompress.class.getResource("./helloCJS.txt.bz2").getFile());
 		
 	}
 
 	@SuppressWarnings("resource")
 	private static void decompress(String fileName) throws IOException {
 		
-		// 1 压缩方式检查
+		// 1 压缩方式检查,通过后缀名自动判断
 		CompressionCodecFactory factory = new CompressionCodecFactory(new Configuration());
 		CompressionCodec codec = factory.getCodec(new Path(fileName));
 		
