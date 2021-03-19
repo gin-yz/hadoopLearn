@@ -6,14 +6,15 @@ package com.cjs.hadoopLearn.hbaseLearn.hbaseAPILearn;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.*;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
+import org.apache.hadoop.hbase.client.*;
+import org.apache.hadoop.hbase.util.Bytes;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TestApi {
@@ -58,8 +59,8 @@ public class TestApi {
     //创建表
     @Test
     public void createTable() throws MasterNotRunningException, ZooKeeperConnectionException, IOException {
-        String tableName = "cjsdsg"; //表名
-        String[] columnFamily = new String[]{"info","other","hehe"}; //列族
+        String tableName = "testNP:cjsdsg"; //NameSpace:表名,不加ｎａｍｅｓｐａｃｅ的话为默认
+        String[] columnFamily = new String[]{"info", "other", "hehe"}; //列族
         if (admin.tableExists(tableName)) {
             System.out.println("表" + tableName + "已存在");
             //System.exit(0);
@@ -92,5 +93,139 @@ public class TestApi {
         }
     }
 
+    //插入数据
+    @Test
+    public void addRowData() throws IOException {
+        String tableName = "cjsdsg";
+        String rowKey = "428";
+        String columnFamily = "info";
+        String column = "name";
+        String value = "dsg";
+        //创建 HTable 对象
+        HTable hTable = new HTable(conf, tableName);
+        //向表中插入数据
+        Put put = new Put(Bytes.toBytes(rowKey));
+        //向 Put 对象中组装数据
+        put.add(Bytes.toBytes(columnFamily), Bytes.toBytes(column),
+                Bytes.toBytes(value));
+        hTable.put(put);
+        hTable.close();
+        System.out.println("插入数据成功");
+    }
 
+    //创建命名空间
+    @Test
+    public void createNameSpace() {
+        String nameSpace = "testNP";
+        NamespaceDescriptor.Builder builder = NamespaceDescriptor.create(nameSpace);
+        NamespaceDescriptor namespaceDescriptor = builder.build();
+        try {
+            admin.createNamespace(namespaceDescriptor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //删除表
+    public void dropTable(String tableName) throws MasterNotRunningException, ZooKeeperConnectionException, IOException {
+        if (admin.tableExists(tableName)) {
+            admin.disableTable(tableName);
+            admin.deleteTable(tableName);
+            System.out.println("表" + tableName + "删除成功！");
+        } else {
+            System.out.println("表" + tableName + "不存在！");
+        }
+    }
+
+    //插入数据
+    public void addRowData(String tableName, String rowKey, String columnFamily, String column, String value) throws IOException {
+        //创建 HTable 对象
+        HTable hTable = new HTable(conf, tableName);
+        //向表中插入数据
+        Put put = new Put(Bytes.toBytes(rowKey));
+        //向 Put 对象中组装数据
+        put.add(Bytes.toBytes(columnFamily), Bytes.toBytes(column),
+                Bytes.toBytes(value));
+        hTable.put(put);
+        hTable.close();
+        System.out.println("插入数据成功");
+    }
+
+    //删除多行数据
+    public void deleteMultiRow(String tableName, String... rows) throws IOException {
+        HTable hTable = new HTable(conf, tableName);
+        List<Delete> deleteList = new ArrayList<Delete>();
+        for (String row : rows) {
+            Delete delete = new Delete(Bytes.toBytes(row));
+            deleteList.add(delete);
+        }
+        hTable.delete(deleteList);
+        hTable.close();
+    }
+
+    //获取table表的所有数据
+    @Test
+    public void getAllRows() throws IOException {
+        String tableName = "student";
+        HTable hTable = new HTable(conf, tableName);
+        //得到用于扫描 region 的对象
+        Scan scan = new Scan();
+        scan.setMaxVersions(3);
+        //使用 HTable 得到 resultcanner 实现类的对象
+        ResultScanner resultScanner = hTable.getScanner(scan);
+        for (Result result : resultScanner) {
+            Cell[] cells = result.rawCells(); //列族
+            for (Cell cell : cells) {
+                //得到 rowkey
+                System.out.println(" 行 键 :" +
+                        Bytes.toString(CellUtil.cloneRow(cell)));
+                //得到列族
+                System.out.println(" 列 族 " +
+                        Bytes.toString(CellUtil.cloneFamily(cell)));
+                System.out.println(" 列 :" +
+                        Bytes.toString(CellUtil.cloneQualifier(cell)));
+                System.out.println(" 值 :" +
+                        Bytes.toString(CellUtil.cloneValue(cell)));
+            }
+        }
+    }
+
+    //获得某一列
+    public void getRow(String tableName, String rowKey) throws
+            IOException {
+        HTable table = new HTable(conf, tableName);
+        Get get = new Get(Bytes.toBytes(rowKey));
+        //get.setMaxVersions();显示所有版本
+        //get.setTimeStamp();显示指定时间戳的版本
+        Result result = table.get(get);
+        for (Cell cell : result.rawCells()) {
+            System.out.println(" 行 键 :" +
+                    Bytes.toString(result.getRow()));
+            System.out.println(" 列 族 " +
+                    Bytes.toString(CellUtil.cloneFamily(cell)));
+            System.out.println(" 列 :" +
+                    Bytes.toString(CellUtil.cloneQualifier(cell)));
+            System.out.println(" 值 :" +
+                    Bytes.toString(CellUtil.cloneValue(cell)));
+            System.out.println("时间戳:" + cell.getTimestamp());
+        }
+    }
+
+    //获取某一行指定“列族:列”的数据
+    public void getRowQualifier(String tableName, String rowKey, String family, String qualifier) throws IOException {
+        HTable table = new HTable(conf, tableName);
+        Get get = new Get(Bytes.toBytes(rowKey));
+        get.addColumn(Bytes.toBytes(family), Bytes.toBytes(qualifier));
+        Result result = table.get(get);
+        for (Cell cell : result.rawCells()) {
+            System.out.println(" 行 键 :" +
+                    Bytes.toString(result.getRow()));
+            System.out.println(" 列 族 " +
+                    Bytes.toString(CellUtil.cloneFamily(cell)));
+            System.out.println(" 列 :" +
+                    Bytes.toString(CellUtil.cloneQualifier(cell)));
+            System.out.println(" 值 :" +
+                    Bytes.toString(CellUtil.cloneValue(cell)));
+        }
+    }
 }
