@@ -104,7 +104,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.cjs.hadoopLearn.hbaseLearn.iHbaseOHbase.IHbaseOHbaseDriver</mainClass>
+                            <mainClass>com.cjs.hadoopLearn.hbaseLearn.iHbaseOHdfs.HbaseToHadoopDriver</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

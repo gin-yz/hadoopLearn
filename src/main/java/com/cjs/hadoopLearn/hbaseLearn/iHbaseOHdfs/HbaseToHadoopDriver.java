@@ -1,24 +1,25 @@
-package com.cjs.hadoopLearn.hbaseLearn.iHbaseOHbase;
+package com.cjs.hadoopLearn.hbaseLearn.iHbaseOHdfs;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.io.ImmutableBytesWritable;
 import org.apache.hadoop.hbase.mapreduce.TableMapReduceUtil;
+import org.apache.hadoop.io.NullWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-public class IHbaseOHbaseDriver implements Tool {
+public class HbaseToHadoopDriver implements Tool {
     private Configuration configuration;
     @Override
     public int run(String[] strings) throws Exception {
         //得到 Configuration
         Configuration conf = this.getConf();
-
         //创建 Job 任务
         Job job = Job.getInstance(conf, this.getClass().getSimpleName());
-        job.setJarByClass(IHbaseOHbaseDriver.class);
+        job.setJarByClass(HbaseToHadoopDriver.class);
 
         //配置 scan,可以指定表的过滤选项
         Scan scan = new Scan();
@@ -29,15 +30,19 @@ public class IHbaseOHbaseDriver implements Tool {
         TableMapReduceUtil.initTableMapperJob(
                 strings[0], //数据源的表名
                 scan, //scan 扫描控制器
-                ReadFromHbaseMapper.class,//设置 Mapper 类
-                ImmutableBytesWritable.class,//设置 Mapper 输出 key 类型
-                Put.class,//设置 Mapper 输出 value 值类型
+                HbaseToHadoopMapper.class,//设置 Mapper 类
+                Text.class,//设置 Mapper 输出 key 类型
+                NullWritable.class,//设置 Mapper 输出 value 值类型
                 job//设置给哪个 JOB
         );
 
         //设置 Reducer
-        TableMapReduceUtil.initTableReducerJob(strings[1] //输出的表名
-                , WriteToHbaeReducer.class, job);
+//        TableMapReduceUtil.initTableReducerJob(strings[1] //输出的表名
+//                , WriteToHbaeReducer.class, job);
+        job.setReducerClass(HbaseToHadoopreducer.class);
+        job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(NullWritable.class);
+        FileOutputFormat.setOutputPath(job, new Path(strings[1]));
 
         //设置 Reduce 数量
         job.setNumReduceTasks(1);
@@ -59,7 +64,7 @@ public class IHbaseOHbaseDriver implements Tool {
     public static void main(String[] args) throws Exception {
         Configuration configuration = new Configuration();
 
-        int run = ToolRunner.run(configuration, new IHbaseOHbaseDriver(), args);
+        int run = ToolRunner.run(configuration, new HbaseToHadoopDriver(), args);
 
         System.exit(run);
 
