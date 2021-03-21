@@ -151,16 +151,33 @@ public class TestApi {
         System.out.println("插入数据成功");
     }
 
-    //删除多行数据
-    public void deleteMultiRow(String tableName, String... rows) throws IOException {
+    //注意删除打标记问题，查看笔记
+    @Test
+    public void deleteMultiRow() throws IOException {
+        String tableName = "student";
+        String[] rows = {"666"};
         HTable hTable = new HTable(conf, tableName);
         List<Delete> deleteList = new ArrayList<Delete>();
-        for (String row : rows) {
-            Delete delete = new Delete(Bytes.toBytes(row));
+        for (String rowKey : rows) {
+            Delete delete = new Delete(Bytes.toBytes(rowKey));
+            delete.addColumn(Bytes.toBytes("info"),Bytes.toBytes("name"));
             deleteList.add(delete);
         }
         hTable.delete(deleteList);
         hTable.close();
+    }
+
+    //新ａｐｉ，得到ｔａｂｌｅ后再操作
+    @Test
+    public void deleteTest() throws IOException {
+        String tableName = "student";
+        String rowKey = "666";
+        Table table = this.connection.getTable(TableName.valueOf(tableName));
+        Delete delete = new Delete(Bytes.toBytes(rowKey));
+        delete.addColumns(Bytes.toBytes("info"),Bytes.toBytes("name"));
+        table.delete(delete);
+        table.close();
+
     }
 
     //获取table表的所有数据
